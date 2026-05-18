@@ -1,5 +1,6 @@
 #include "Product.h"
 #include "ProductContainer.h"
+#include "PricingStrategy.h"
 #include <vector>
 
 class ProductContainer::Impl
@@ -7,22 +8,20 @@ class ProductContainer::Impl
 private:
   // fields
   std::vector<Product *> data;
+  PricingStrategy *pricingStrategy;
 
 public:
+  Impl();
   ~Impl();
+
+  void setPricingStrategy(PricingStrategy *s);
+  double recalculatePrice(int index) const;
 
   // CRUD operations
 
-  // Create
   void add(Product *p);
-
-  // Read
   Product *get(int index) const;
-
-  // Update
   void update(int index, Product *p);
-
-  // Delete
   void remove(int index);
 
   // Iterator methods
@@ -32,6 +31,11 @@ public:
 
 // Impl class methods implementations
 
+ProductContainer::Impl::Impl()
+{
+  pricingStrategy = nullptr;
+}
+
 ProductContainer::Impl::~Impl()
 {
   for (Product *p : data)
@@ -39,6 +43,20 @@ ProductContainer::Impl::~Impl()
     delete p;
   }
 }
+
+void ProductContainer::Impl::setPricingStrategy(PricingStrategy *pricingStrategy)
+{
+  this->pricingStrategy = pricingStrategy;
+}
+
+double ProductContainer::Impl::recalculatePrice(int index) const
+  {
+    Product *p = get(index);
+    if (p == nullptr || pricingStrategy == nullptr)
+      //
+
+    return pricingStrategy->calculatePrice(p->calculatePrice());
+  }
 
 void ProductContainer::Impl::add(Product *p)
 {
@@ -184,6 +202,16 @@ ProductContainer::ProductContainer()
 ProductContainer::~ProductContainer()
 {
   delete pImpl;
+}
+
+void ProductContainer::setPricingStrategy(PricingStrategy *s)
+{
+  pImpl->setPricingStrategy(s);
+}
+
+double ProductContainer::recalculatePrice(int index) const
+{
+  return pImpl->recalculatePrice(index);
 }
 
 ProductContainer::ForwardIterator ProductContainer::begin()

@@ -11,10 +11,14 @@ public:
   ProductContainer();
   ~ProductContainer();
 
+  void setPricingStrategy(PricingStrategy *s);
+  double recalculatePrice(int index) const;
+
   class ForwardIterator
   {
   public:
     class IteratorImpl;
+
   private:
     IteratorImpl *pIterImpl;
 
@@ -23,7 +27,7 @@ public:
     ForwardIterator(const ForwardIterator &other);
     ~ForwardIterator();
 
-    ForwardIterator &operator=(const ForwardIterator &other)
+    ForwardIterator &operator=(const ForwardIterator &other);
     Product *&operator*();
     ForwardIterator &operator++();
     ForwardIterator operator++(int);

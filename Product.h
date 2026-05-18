@@ -6,7 +6,7 @@
 
 class Product
 {
-protected: // ?
+private: 
   std::string origin;
   double priceCoefficient;
   double transportationCostCoefficient;
