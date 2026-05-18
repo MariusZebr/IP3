@@ -1,6 +1,6 @@
 #include "RegularPrice.h"
 
-double RegularPrice::calculatePrice(double basePrice) override
-  {
-    return basePrice;
-  }
+double RegularPrice::calculatePrice(double basePrice)
+{
+  return basePrice;
+}

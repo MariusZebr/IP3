@@ -19,12 +19,12 @@ public:
 
   class ForwardIterator
   {
-  public:
-    class IteratorImpl;
-
+  // to allow ProductContainer to access private ForwardIteratorImpl constructor
+  friend class ProductContainer;
   private:
+    class IteratorImpl;
     IteratorImpl *pIterImpl;
-
+    
   public:
     ForwardIterator(IteratorImpl *impl);
     ForwardIterator(const ForwardIterator &other);
@@ -52,7 +52,7 @@ public:
 
   // Delete
   void remove(int index);
-
+  
   // Iterator methods
   ForwardIterator begin();
   ForwardIterator end();

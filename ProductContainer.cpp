@@ -122,6 +122,7 @@ private:
 public:
   IteratorImpl(std::vector<Product *>::iterator i);
   IteratorImpl(const IteratorImpl &other);
+
   Product *&dereference();
   void increment();
   bool equals(const IteratorImpl &other) const;
@@ -243,10 +244,12 @@ double ProductContainer::recalculatePrice(int index) const
 
 ProductContainer::ForwardIterator ProductContainer::begin()
 {
+  // this would break if ProductContainer wasn't a friend of ForwardIterator
   return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->begin()));
 }
 
 ProductContainer::ForwardIterator ProductContainer::end()
 {
+  // this would break if ProductContainer wasn't a friend of ForwardIterator
   return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->end()));
 }
