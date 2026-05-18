@@ -64,6 +64,11 @@ void Milk::pasteurize()
   isPasteurized = true;
 }
 
+Milk *Milk::clone() const
+{
+  return new Milk(*this);
+}
+
  std::string Milk::toString() const
  {
   std::stringstream ss;  

@@ -1,6 +1,7 @@
 #include "Product.h"
-#include "ProductContainer.h"
 #include "PricingStrategy.h"
+#include "ProductContainer.h"
+#include "StrategyNotSetException.h"
 #include <vector>
 
 class ProductContainer::Impl
@@ -63,7 +64,7 @@ double ProductContainer::Impl::recalculatePrice(int index) const
   {
     Product *p = get(index);
     if (p == nullptr || pricingStrategy == nullptr)
-      //
+       throw StrategyNotSetException("PricingStrategy");
 
     return pricingStrategy->calculatePrice(p->calculatePrice());
   }
