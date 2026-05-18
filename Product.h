@@ -26,6 +26,8 @@ public:
   virtual double calculatePrice() const = 0;
   virtual double calculateTransportationCost() const = 0;
 
+  virtual Product *clone() const = 0;
+
   virtual std::string toString() const;
 };
 

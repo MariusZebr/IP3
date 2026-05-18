@@ -27,6 +27,11 @@ double Wheat::calculateTransportationCost() const
   return getWeight() * getTransportationCostCoefficient();
 }
 
+Wheat *Wheat::clone() const
+{
+  return new Wheat(*this);
+}
+
  std::string Wheat::toString() const
  {
   std::stringstream ss;  

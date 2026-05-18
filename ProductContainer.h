@@ -9,7 +9,10 @@ private:
 
 public:
   ProductContainer();
+  ProductContainer(const ProductContainer &other);
   ~ProductContainer();
+
+  ProductContainer &operator=(const ProductContainer &other);
 
   void setPricingStrategy(PricingStrategy *s);
   double recalculatePrice(int index) const;

@@ -6,7 +6,6 @@ Product::Product(const std::string &origin, double priceCoefficient, double tran
     setOrigin(origin);
     setPriceCoefficient(priceCoefficient);
     setTransportationCostCoefficient(transportationCostCoefficient);
-    
   }
 
   void Product::setOrigin(const std::string &origin)

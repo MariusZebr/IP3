@@ -18,6 +18,8 @@ public:
   double calculatePrice() const override;
   double calculateTransportationCost() const override;
 
+  Wheat *clone() const override;
+  
   std::string toString() const override;
 };
 

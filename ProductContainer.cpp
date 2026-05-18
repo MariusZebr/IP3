@@ -13,6 +13,7 @@ private:
 public:
   Impl();
   ~Impl();
+  Impl *clone() const;
 
   void setPricingStrategy(PricingStrategy *s);
   double recalculatePrice(int index) const;
@@ -42,6 +43,15 @@ ProductContainer::Impl::~Impl()
   {
     delete p;
   }
+}
+
+ProductContainer::Impl *ProductContainer::Impl::clone() const
+{
+  Impl *newImpl = new Impl();
+  newImpl->setPricingStrategy(pricingStrategy); 
+  for (Product *p : data)
+    newImpl->add(p->clone());
+  return newImpl;
 }
 
 void ProductContainer::Impl::setPricingStrategy(PricingStrategy *pricingStrategy)
@@ -199,9 +209,25 @@ ProductContainer::ProductContainer()
   pImpl = new Impl();
 }
 
+ProductContainer::ProductContainer(const ProductContainer &other)
+{
+  pImpl = other.pImpl->clone();
+}
+
 ProductContainer::~ProductContainer()
 {
   delete pImpl;
+}
+
+ProductContainer &ProductContainer::operator=(const ProductContainer &other)
+{
+  if (this != &other)
+  {
+    Impl *newImpl = other.pImpl->clone(); // allocate first
+    delete pImpl;                         // only delete old if allocation succeeded
+    pImpl = newImpl;
+  }
+  return *this;
 }
 
 void ProductContainer::setPricingStrategy(PricingStrategy *s)

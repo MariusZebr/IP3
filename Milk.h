@@ -27,6 +27,8 @@ public:
   double calculateTransportationCost() const override;
 
   void pasteurize();
+
+  Milk *clone() const override;
   
   std::string toString() const override; 
 };
