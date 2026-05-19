@@ -14,9 +14,6 @@ public:
 
   ProductContainer &operator=(const ProductContainer &other);
 
-  void setPricingStrategy(PricingStrategy *s);
-  double recalculatePrice(int index) const;
-
   class ForwardIterator
   {
   // to allow ProductContainer to access private ForwardIteratorImpl constructor
@@ -39,19 +36,16 @@ public:
     bool operator==(const ForwardIterator &other) const;
   };
 
+  void setPricingStrategy(PricingStrategy *s);
+  double recalculatePrice(ForwardIterator &position) const;
+
   // CRUD operations
 
-  // Create
-  void add(Product *p);
-
-  // Read
-  Product *get(int index) const;
-
-  // Update
-  void update(int index, Product *p);
-
-  // Delete
-  void remove(int index);
+  void push_back(Product *p);
+  void insert(ForwardIterator &position, Product *p);
+  Product *get(const ForwardIterator &position) const;
+  void update(const ForwardIterator &position, Product *p);
+  void remove(std::vector<Product *>::iterator position);
   
   // Iterator methods
   ForwardIterator begin();

@@ -17,14 +17,15 @@ public:
   Impl *clone() const;
 
   void setPricingStrategy(PricingStrategy *s);
-  double recalculatePrice(int index) const;
+  double recalculatePrice(ForwardIterator position) const;
 
   // CRUD operations
 
-  void add(Product *p);
-  Product *get(int index) const;
-  void update(int index, Product *p);
-  void remove(int index);
+  void push_back(Product *p);
+  void insert(ForwardIterator &position, Product *p);
+  Product *get(const ForwardIterator &position) const;
+  void update(const ForwardIterator &position, Product *p);
+  void remove(std::vector<Product *>::iterator position);
 
   // Iterator methods
   std::vector<Product *>::iterator begin();
@@ -49,9 +50,9 @@ ProductContainer::Impl::~Impl()
 ProductContainer::Impl *ProductContainer::Impl::clone() const
 {
   Impl *newImpl = new Impl();
-  newImpl->setPricingStrategy(pricingStrategy); 
+  newImpl->setPricingStrategy(pricingStrategy);
   for (Product *p : data)
-    newImpl->add(p->clone());
+    newImpl->push_back(p->clone());
   return newImpl;
 }
 
@@ -60,47 +61,40 @@ void ProductContainer::Impl::setPricingStrategy(PricingStrategy *pricingStrategy
   this->pricingStrategy = pricingStrategy;
 }
 
-double ProductContainer::Impl::recalculatePrice(int index) const
-  {
-    Product *p = get(index);
-    if (p == nullptr || pricingStrategy == nullptr)
-       throw StrategyNotSetException("PricingStrategy");
+double ProductContainer::Impl::recalculatePrice(ForwardIterator position) const
+{
+  Product *p = get(position);
+  if (p == nullptr || pricingStrategy == nullptr)
+    throw StrategyNotSetException("PricingStrategy");
 
-    return pricingStrategy->calculatePrice(p->calculatePrice());
-  }
+  return pricingStrategy->calculatePrice(p->calculatePrice());
+}
 
-void ProductContainer::Impl::add(Product *p)
+void ProductContainer::Impl::push_back(Product *p)
 {
   data.push_back(p);
 }
 
-Product *ProductContainer::Impl::get(int index) const
+void ProductContainer::Impl::insert(ForwardIterator &position, Product *p)
 {
-  // exception?
-  if (index >= data.size())
-    return nullptr;
-
-  return data[index];
+  data.insert(position.pIterImpl->getIt(), p); // inserts before the iterator position
 }
 
-void ProductContainer::Impl::update(int index, Product *p)
+Product *ProductContainer::Impl::get(const ForwardIterator &position) const
 {
-  // exception?
-  if (index < data.size())
-  {
-    delete data[index];
-    data[index] = p;
-  }
+  return position.pIterImpl->dereference();
 }
 
-void ProductContainer::Impl::remove(int index)
+void ProductContainer::Impl::update(const ForwardIterator &position, Product *p)
 {
-  // exception?
-  if (index < data.size())
-  {
-    delete data[index];
-    data.erase(data.begin() + index);
-  }
+  delete *position.pIterImpl->getIt();       // free old product
+  *position.pIterImpl->getIt() = p;          // replace with new
+}
+
+void ProductContainer::Impl::remove(std::vector<Product *>::iterator position)
+{
+  delete *position;
+  data.erase(position);
 }
 
 std::vector<Product *>::iterator ProductContainer::Impl::begin()
@@ -123,6 +117,8 @@ public:
   IteratorImpl(std::vector<Product *>::iterator i);
   IteratorImpl(const IteratorImpl &other);
 
+  std::vector<Product *>::iterator getIt() const;
+
   Product *&dereference();
   void increment();
   bool equals(const IteratorImpl &other) const;
@@ -138,6 +134,11 @@ ProductContainer::ForwardIterator::IteratorImpl::IteratorImpl(std::vector<Produc
 ProductContainer::ForwardIterator::IteratorImpl::IteratorImpl(const ProductContainer::ForwardIterator::IteratorImpl &other)
 {
   it = other.it;
+}
+
+std::vector<Product *>::iterator ProductContainer::ForwardIterator::IteratorImpl::getIt() const
+{
+  return it;
 }
 
 Product *&ProductContainer::ForwardIterator::IteratorImpl::dereference()
@@ -237,9 +238,34 @@ void ProductContainer::setPricingStrategy(PricingStrategy *s)
   pImpl->setPricingStrategy(s);
 }
 
-double ProductContainer::recalculatePrice(int index) const
+double ProductContainer::recalculatePrice(ForwardIterator &position) const
 {
-  return pImpl->recalculatePrice(index);
+  return pImpl->recalculatePrice(position);
+}
+
+void ProductContainer::push_back(Product *p)
+{
+  pImpl->push_back(p);
+}
+
+void ProductContainer::insert(ForwardIterator &position, Product *product)
+{
+  pImpl->insert(position, product);
+}
+
+Product *ProductContainer::get(const ForwardIterator &position) const
+{
+  return pImpl->get(position);
+}
+
+void ProductContainer::update(const ForwardIterator &position, Product *p)
+{
+  pImpl->update(position, p);
+}
+
+void ProductContainer::remove(std::vector<Product *>::iterator position)
+{
+  pImpl->remove(position);
 }
 
 ProductContainer::ForwardIterator ProductContainer::begin()
