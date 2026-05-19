@@ -1,6 +1,5 @@
 #include <sstream>
 #include "Product.h"
-#include "Wheat.h"
 
 Wheat::Wheat(const std::string &origin, double weight, double priceCoefficient, double transportationCostCoefficient) : Product(origin, priceCoefficient, transportationCostCoefficient)
 {
@@ -25,6 +24,11 @@ double Wheat::calculatePrice() const
 double Wheat::calculateTransportationCost() const
 {
   return getWeight() * getTransportationCostCoefficient();
+}
+
+void Wheat::repurpose(double percentage)
+{
+  weight -= weight * percentage / 100.0;
 }
 
 Wheat *Wheat::clone() const

@@ -85,6 +85,7 @@ void ProductContainer::Impl::push_back(Product *p)
 
 void ProductContainer::Impl::insert(ForwardIterator &position, Product *p)
 {
+  // this and others below would break if ProductContainer wasn't a friend of ForwardIterator
   data.insert(position.pIterImpl->getIt(), p); // inserts before the iterator position
 }
 

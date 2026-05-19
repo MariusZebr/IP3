@@ -1,5 +1,6 @@
 #include <sstream>
 #include "Product.h"
+#include "NotImplementedException.h"
 
 Product::Product(const std::string &origin, double priceCoefficient, double transportationCostCoefficient)
  {
@@ -36,6 +37,11 @@ Product::Product(const std::string &origin, double priceCoefficient, double tran
   double Product::getTransportationCostCoefficient() const
   {
     return transportationCostCoefficient;
+  }
+
+  void Product::repurpose(double percentage)
+  {
+    throw NotImplementedException("repurpose");
   }
 
   std::string Product::toString() const
