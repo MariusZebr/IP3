@@ -1,3 +1,6 @@
+//#define DEMO_MODE
+#ifdef DEMO_MODE
+
 #include <algorithm>
 #include <iostream>
 #include "../include/Product.h"
@@ -128,3 +131,5 @@ int main()
   delete p2;
   return 0;
 }
+
+#endif // DEMO_MODE

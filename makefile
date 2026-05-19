@@ -1,6 +1,27 @@
 COMP = g++
 COMPFLAGS = -std=c++17 -Wall -Wextra -g -Wpedantic
 
+# c) run demo
+c: demo.exe
+	./demo.exe
+
+# b) build demo
+b: demo.exe
+	
+# d) build test
+d: test.exe
+
+# e) run test
+e: test.exe
+	./test.exe
+	
+# f) clean everything
+f:
+	del *.o *.exe
+
+# g) rebuild from scratch
+g: f a
+
 demo.exe: demo.o milk.o wheat.o Product.o DiscountedPrice.o RegularPrice.o TaxedPrice.o ProductContainer.o NotImplementedException.o StrategyNotSetException.o
 	$(COMP) $(COMPFLAGS) -o demo.exe demo.o milk.o wheat.o Product.o DiscountedPrice.o RegularPrice.o TaxedPrice.o ProductContainer.o NotImplementedException.o StrategyNotSetException.o
 
