@@ -1,5 +1,6 @@
 #ifndef MILK_H_205700525
 #define MILK_H_205700525
+
 #include "Product.h"
 
 class Milk : public Product

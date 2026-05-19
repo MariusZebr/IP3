@@ -26,6 +26,7 @@ public:
 
   virtual double calculatePrice() const = 0;
   virtual double calculateTransportationCost() const = 0;
+  virtual double calculateProfit() const; // Template design pattern: Template method (calls calculatePrice and calculateTransportationCost)
   
   virtual void repurpose(double percentage); 
 

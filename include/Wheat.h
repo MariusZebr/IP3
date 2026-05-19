@@ -1,5 +1,6 @@
 #ifndef WHEAT_H_0925956
 #define WHEAT_H_0925956
+
 #include "Product.h"
 
 class Wheat : public Product

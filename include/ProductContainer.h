@@ -1,6 +1,9 @@
-#include "Product.h"
+#ifndef PRODUCT_CONTAINER_H_832035
+#define PRODUCT_CONTAINER_H_832035
+
 #include <functional>
 #include <vector>
+#include "Product.h"
 
 class ProductContainer
 {
@@ -13,8 +16,9 @@ public:
   ProductContainer(const ProductContainer &other);
   ~ProductContainer();
   ProductContainer &operator=(const ProductContainer &other);
-
+  
   void forEach(std::function<void(Product *)> callback);
+  std::string ProductContainer::listProducts();
 
   class ForwardIterator
   {
@@ -53,5 +57,8 @@ public:
   ForwardIterator begin();
   ForwardIterator end();
 
-  void toString() const;
+  std::string toString() const;
 };
+
+#endif // PRODUCT_CONTAINER_H_832035
+

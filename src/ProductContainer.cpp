@@ -1,16 +1,16 @@
-#include "include/Product.h"
-#include "include/strategies/PricingStrategy.h"
-#include "include/ProductContainer.h"
-#include "include/exceptions/StrategyNotSetException.h"
 #include <vector>
 #include <algorithm>
+#include <sstream>
+#include "include/Product.h"
+#include "include/ProductContainer.h"
+#include "include/exceptions/StrategyNotSetException.h"
 
 class ProductContainer::Impl
 {
 private:
   // fields
   std::vector<Product *> data;
-  PricingStrategy *pricingStrategy;
+  PricingStrategy *pricingStrategy; // container does not manage the memory of the strategy
 
 public:
   Impl();
@@ -247,6 +247,18 @@ void ProductContainer::forEach(std::function<void(Product *)> callback)
   pImpl->forEach(callback);
 }
 
+std::string ProductContainer::listProducts()
+{
+  std::stringstream ss;
+  forEach([&ss](Product *p) {
+    ss << p->toString() << std::endl;
+    ss << "Price of Product: " << p->calculatePrice() << std::endl;
+    ss << "Transportation Cost of Product: " << p->calculateTransportationCost() << std::endl;
+    ss << "Profit of Product: " << p->calculateProfit() << std::endl;
+  });
+  return ss.str();
+}
+
 void ProductContainer::setPricingStrategy(PricingStrategy *s)
 {
   pImpl->setPricingStrategy(s);
@@ -294,9 +306,11 @@ ProductContainer::ForwardIterator ProductContainer::end()
   return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->end()));
 }
 
-void ProductContainer::toString() const
+std::string ProductContainer::toString() const
 {
-  pImpl->forEach([](Product *p) {
-    std::cout << p->toString() << std::endl;
+  std::stringstream ss;
+  pImpl->forEach([&ss](Product *p) {
+    ss << p->toString() << std::endl;
   });
+  return ss.str();
 }

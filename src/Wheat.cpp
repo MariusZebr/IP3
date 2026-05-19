@@ -28,7 +28,7 @@ double Wheat::calculateTransportationCost() const
 
 void Wheat::repurpose(double percentage)
 {
-  weight -= weight * percentage / 100.0;
+  weight *= (1.0 - percentage / 100.0);
 }
 
 Wheat *Wheat::clone() const

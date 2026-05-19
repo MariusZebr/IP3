@@ -39,6 +39,36 @@ Product::Product(const std::string &origin, double priceCoefficient, double tran
     return transportationCostCoefficient;
   }
 
+  double Product::calculateProfit() const
+  {
+    return calculatePrice() - calculateTransportationCost();
+  }
+
+  bool Product::operator==(const Product &other) const
+  {
+    return this->calculateProfit() == other.calculateProfit();
+  }
+
+  bool Product::operator>(const Product &other) const
+  {
+    return this->calculateProfit() > other.calculateProfit();
+  }
+
+  bool Product::operator<(const Product &other) const
+  {
+    return this->calculateProfit() < other.calculateProfit();
+  }
+
+  bool Product::operator>=(const Product &other) const
+  {
+    return this->calculateProfit() >= other.calculateProfit();
+  }
+
+  bool Product::operator<=(const Product &other) const
+  {
+    return this->calculateProfit() <= other.calculateProfit();
+  }
+
   void Product::repurpose(double percentage)
   {
     throw NotImplementedException("repurpose");
