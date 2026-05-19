@@ -1,5 +1,5 @@
 #include <sstream>
-#include "Product.h"
+#include "include/Wheat.h"
 
 Wheat::Wheat(const std::string &origin, double weight, double priceCoefficient, double transportationCostCoefficient) : Product(origin, priceCoefficient, transportationCostCoefficient)
 {
@@ -41,4 +41,5 @@ Wheat *Wheat::clone() const
   std::stringstream ss;  
   ss << Product::toString() << std::endl;
   ss << getWeight() << std::endl;
+  return ss.str();
  }

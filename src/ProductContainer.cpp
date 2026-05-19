@@ -1,7 +1,7 @@
-#include "Product.h"
-#include "PricingStrategy.h"
-#include "ProductContainer.h"
-#include "StrategyNotSetException.h"
+#include "include/Product.h"
+#include "include/strategies/PricingStrategy.h"
+#include "include/ProductContainer.h"
+#include "include/exceptions/StrategyNotSetException.h"
 #include <vector>
 #include <algorithm>
 

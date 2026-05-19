@@ -1,6 +1,6 @@
 #include <sstream>
-#include "Product.h"
-#include "NotImplementedException.h"
+#include "include/Product.h"
+#include "include/exceptions/NotImplementedException.h"
 
 Product::Product(const std::string &origin, double priceCoefficient, double transportationCostCoefficient)
  {

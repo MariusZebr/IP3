@@ -1,4 +1,4 @@
-#include "NotImplementedException.h"
+#include "include/exceptions/NotImplementedException.h"
 
 class NotImplementedException : public std::logic_error
 {

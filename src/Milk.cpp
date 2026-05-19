@@ -1,5 +1,5 @@
 #include <sstream>
-#include "Product.h"
+#include "include/Milk.h"
 
 Milk::Milk(std::string origin, int priceCoefficient,
            int transportationCostCoefficient, int volume, bool isPasteurized, double pasterurizedCoefficient) : Product(origin, priceCoefficient, transportationCostCoefficient)

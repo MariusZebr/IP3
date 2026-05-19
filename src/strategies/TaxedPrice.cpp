@@ -1,4 +1,4 @@
-#include "TaxedPrice.h"
+#include "include/strategies/TaxedPrice.h"
 
 TaxedPrice::TaxedPrice(double percent)
 {
