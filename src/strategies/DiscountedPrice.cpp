@@ -1,4 +1,4 @@
-#include "include/strategies/DiscountedPrice.h"
+#include "../../include/strategies/DiscountedPrice.h"
 
 DiscountedPrice::DiscountedPrice(double discountPercent)
 {

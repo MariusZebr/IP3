@@ -13,7 +13,7 @@ private:
 
 public:
   Product(const std::string &origin, double priceCoefficient, double transportationCostCoefficient);
-  virtual ~Product();
+  virtual ~Product() = default;
   virtual Product *clone() const = 0;
 
   void setOrigin(const std::string &origin);
@@ -28,6 +28,13 @@ public:
   virtual double calculateTransportationCost() const = 0;
   virtual double calculateProfit() const; // Template design pattern: Template method (calls calculatePrice and calculateTransportationCost)
   
+  // Compares by profit
+  virtual bool operator==(const Product &other) const;
+  virtual bool operator>(const Product &other) const;
+  virtual bool operator<(const Product &other) const;
+  virtual bool operator>=(const Product &other) const;
+  virtual bool operator<=(const Product &other) const;
+
   virtual void repurpose(double percentage); 
 
   virtual std::string toString() const;

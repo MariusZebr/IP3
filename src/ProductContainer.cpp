@@ -1,9 +1,10 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
-#include "include/Product.h"
-#include "include/ProductContainer.h"
-#include "include/exceptions/StrategyNotSetException.h"
+#include "../include/Product.h"
+#include "../include/strategies/PricingStrategy.h"
+#include "../include/ProductContainer.h"
+#include "../include/exceptions/StrategyNotSetException.h"
 
 class ProductContainer::Impl
 {
@@ -83,23 +84,6 @@ void ProductContainer::Impl::push_back(Product *p)
   data.push_back(p);
 }
 
-void ProductContainer::Impl::insert(ForwardIterator &position, Product *p)
-{
-  // this and others below would break if ProductContainer wasn't a friend of ForwardIterator
-  data.insert(position.pIterImpl->getIt(), p); // inserts before the iterator position
-}
-
-Product *ProductContainer::Impl::get(const ForwardIterator &position) const
-{
-  return position.pIterImpl->dereference();
-}
-
-void ProductContainer::Impl::update(const ForwardIterator &position, Product *p)
-{
-  delete *position.pIterImpl->getIt(); // free old product
-  *position.pIterImpl->getIt() = p;    // replace with new
-}
-
 void ProductContainer::Impl::remove(std::vector<Product *>::iterator position)
 {
   delete *position;
@@ -132,6 +116,24 @@ public:
   void increment();
   bool equals(const IteratorImpl &other) const;
 };
+
+void ProductContainer::Impl::insert(ForwardIterator &position, Product *p)
+{
+  // this and others below would break if ProductContainer wasn't a friend of ForwardIterator
+  data.insert(position.pIterImpl->getIt(), p); // inserts before the iterator position
+}
+
+// Impl class methods that depend on the pIterImpl class
+Product *ProductContainer::Impl::get(const ForwardIterator &position) const
+{
+  return position.pIterImpl->dereference();
+}
+
+void ProductContainer::Impl::update(const ForwardIterator &position, Product *p)
+{
+  delete *position.pIterImpl->getIt(); // free old product
+  *position.pIterImpl->getIt() = p;    // replace with new
+}
 
 // IteratorImpl class methods implementations
 

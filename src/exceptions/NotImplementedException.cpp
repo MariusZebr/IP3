@@ -1,9 +1,5 @@
-#include "include/exceptions/NotImplementedException.h"
+#include "../../include/exceptions/NotImplementedException.h"
 
-class NotImplementedException : public std::logic_error
+NotImplementedException::NotImplementedException(const std::string &methodName) : std::logic_error(methodName + " is not implemented")
 {
-public:
-  NotImplementedException(const std::string &methodName) : std::logic_error(methodName + " is not implemented")
-  {
-  }
-};
+}

@@ -4,6 +4,8 @@
 #include <functional>
 #include <vector>
 #include "Product.h"
+#include "../include/strategies/PricingStrategy.h"
+#include "../include/exceptions/StrategyNotSetException.h"
 
 class ProductContainer
 {
@@ -18,7 +20,7 @@ public:
   ProductContainer &operator=(const ProductContainer &other);
   
   void forEach(std::function<void(Product *)> callback);
-  std::string ProductContainer::listProducts();
+  std::string listProducts();
 
   class ForwardIterator
   {
@@ -32,8 +34,14 @@ public:
     ForwardIterator(IteratorImpl *impl);
     ForwardIterator(const ForwardIterator &other);
     ~ForwardIterator();
-
     ForwardIterator &operator=(const ForwardIterator &other);
+
+    // everything below is required for a forward iterator
+    using iterator_category = std::forward_iterator_tag;
+    using value_type        = Product*;
+    using difference_type   = std::ptrdiff_t;
+    using pointer           = Product**;
+    using reference         = Product*&;
     Product *&operator*();
     ForwardIterator &operator++();
     ForwardIterator operator++(int);

@@ -1,5 +1,5 @@
 #include <sstream>
-#include "include/Wheat.h"
+#include "../include/Wheat.h"
 
 Wheat::Wheat(const std::string &origin, double weight, double priceCoefficient, double transportationCostCoefficient) : Product(origin, priceCoefficient, transportationCostCoefficient)
 {

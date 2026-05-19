@@ -1,4 +1,4 @@
-#include "include/strategies/RegularPrice.h"
+#include "../../include/strategies/RegularPrice.h"
 
 double RegularPrice::calculatePrice(double basePrice)
 {
