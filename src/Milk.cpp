@@ -2,7 +2,8 @@
 #include "include/Milk.h"
 
 Milk::Milk(std::string origin, int priceCoefficient,
-           int transportationCostCoefficient, int volume, bool isPasteurized, double pasterurizedCoefficient) : Product(origin, priceCoefficient, transportationCostCoefficient)
+           int transportationCostCoefficient, int volume, bool isPasteurized, double pasterurizedCoefficient)
+            : Product(origin, priceCoefficient, transportationCostCoefficient)
 {
   setVolume(volume);
   setIsPasteurized(isPasteurized);
