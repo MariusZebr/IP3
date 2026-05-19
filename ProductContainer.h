@@ -1,4 +1,5 @@
 #include "Product.h"
+#include <functional>
 #include <vector>
 
 class ProductContainer
@@ -11,12 +12,13 @@ public:
   ProductContainer();
   ProductContainer(const ProductContainer &other);
   ~ProductContainer();
-
   ProductContainer &operator=(const ProductContainer &other);
+
+  void forEach(std::function<void(Product *)> callback);
 
   class ForwardIterator
   {
-  // to allow ProductContainer to access private ForwardIteratorImpl constructor
+  // to allow ProductContainer to access private class IteratorImpl
   friend class ProductContainer;
   private:
     class IteratorImpl;
@@ -50,4 +52,6 @@ public:
   // Iterator methods
   ForwardIterator begin();
   ForwardIterator end();
+
+  void toString() const;
 };

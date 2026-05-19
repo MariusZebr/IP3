@@ -3,6 +3,7 @@
 #include "ProductContainer.h"
 #include "StrategyNotSetException.h"
 #include <vector>
+#include <algorithm>
 
 class ProductContainer::Impl
 {
@@ -16,8 +17,10 @@ public:
   ~Impl();
   Impl *clone() const;
 
+  void forEach(std::function<void(Product *)> callback);
+
   void setPricingStrategy(PricingStrategy *s);
-  double recalculatePrice(ForwardIterator position) const;
+  double recalculatePrice(ForwardIterator &position) const;
 
   // CRUD operations
 
@@ -56,12 +59,17 @@ ProductContainer::Impl *ProductContainer::Impl::clone() const
   return newImpl;
 }
 
+void ProductContainer::Impl::forEach(std::function<void(Product *)> callback)
+{
+  std::for_each(data.begin(), data.end(), callback);
+}
+
 void ProductContainer::Impl::setPricingStrategy(PricingStrategy *pricingStrategy)
 {
   this->pricingStrategy = pricingStrategy;
 }
 
-double ProductContainer::Impl::recalculatePrice(ForwardIterator position) const
+double ProductContainer::Impl::recalculatePrice(ForwardIterator &position) const
 {
   Product *p = get(position);
   if (p == nullptr || pricingStrategy == nullptr)
@@ -87,8 +95,8 @@ Product *ProductContainer::Impl::get(const ForwardIterator &position) const
 
 void ProductContainer::Impl::update(const ForwardIterator &position, Product *p)
 {
-  delete *position.pIterImpl->getIt();       // free old product
-  *position.pIterImpl->getIt() = p;          // replace with new
+  delete *position.pIterImpl->getIt(); // free old product
+  *position.pIterImpl->getIt() = p;    // replace with new
 }
 
 void ProductContainer::Impl::remove(std::vector<Product *>::iterator position)
@@ -233,6 +241,11 @@ ProductContainer &ProductContainer::operator=(const ProductContainer &other)
   return *this;
 }
 
+void ProductContainer::forEach(std::function<void(Product *)> callback)
+{
+  pImpl->forEach(callback);
+}
+
 void ProductContainer::setPricingStrategy(PricingStrategy *s)
 {
   pImpl->setPricingStrategy(s);
@@ -278,4 +291,11 @@ ProductContainer::ForwardIterator ProductContainer::end()
 {
   // this would break if ProductContainer wasn't a friend of ForwardIterator
   return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->end()));
+}
+
+void ProductContainer::toString() const
+{
+  pImpl->forEach([](Product *p) {
+    std::cout << p->toString() << std::endl;
+  });
 }
