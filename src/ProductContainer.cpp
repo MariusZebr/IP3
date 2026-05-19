@@ -21,6 +21,8 @@ public:
   void forEach(std::function<void(Product *)> callback);
 
   void setPricingStrategy(PricingStrategy *s);
+  PricingStrategy *getPricingStrategy() const;
+
   double recalculatePrice(ForwardIterator &position) const;
 
   // CRUD operations
@@ -68,6 +70,11 @@ void ProductContainer::Impl::forEach(std::function<void(Product *)> callback)
 void ProductContainer::Impl::setPricingStrategy(PricingStrategy *pricingStrategy)
 {
   this->pricingStrategy = pricingStrategy;
+}
+
+PricingStrategy *ProductContainer::Impl::getPricingStrategy() const
+{
+  return pricingStrategy;
 }
 
 double ProductContainer::Impl::recalculatePrice(ForwardIterator &position) const
@@ -252,12 +259,17 @@ void ProductContainer::forEach(std::function<void(Product *)> callback)
 std::string ProductContainer::listProducts()
 {
   std::stringstream ss;
-  forEach([&ss](Product *p) {
-    ss << p->toString() << std::endl;
-    ss << "Price of Product: " << p->calculatePrice() << std::endl;
+  if (pImpl->getPricingStrategy() == nullptr)
+    throw StrategyNotSetException("PricingStrategy");
+  for (auto i = begin(); i != end(); ++i)
+  {
+    Product *p = *i;
+    ss << p->toString();
+    ss << "Price of Product with pricing strategy: " << recalculatePrice(i) << std::endl;
     ss << "Transportation Cost of Product: " << p->calculateTransportationCost() << std::endl;
     ss << "Profit of Product: " << p->calculateProfit() << std::endl;
-  });
+    ss << std::endl;
+  }
   return ss.str();
 }
 
@@ -312,7 +324,7 @@ std::string ProductContainer::toString() const
 {
   std::stringstream ss;
   pImpl->forEach([&ss](Product *p) {
-    ss << p->toString() << std::endl;
+    ss << p->toString();
   });
   return ss.str();
 }

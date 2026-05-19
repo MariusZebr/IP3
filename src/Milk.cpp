@@ -1,8 +1,8 @@
 #include <sstream>
 #include "../include/Milk.h"
 
-Milk::Milk(std::string origin, int priceCoefficient,
-           int transportationCostCoefficient, int volume, bool isPasteurized, double pasterurizedCoefficient)
+Milk::Milk(std::string origin, double volume, double priceCoefficient,
+           double transportationCostCoefficient, bool isPasteurized, double pasterurizedCoefficient)
             : Product(origin, priceCoefficient, transportationCostCoefficient)
 {
   setVolume(volume);
@@ -45,11 +45,11 @@ double Milk::calculatePrice() const
   double finalPrice;
   if (getIsPasteurized())
   {
-    finalPrice = getVolume() * getPriceCoefficient();
+    finalPrice = getVolume() * getPasterurizedPriceCoefficient();
   }
   else
   {
-    finalPrice = getVolume() * getPasterurizedPriceCoefficient();
+    finalPrice = getVolume()  * getPriceCoefficient();
   }
   return finalPrice;
 }
@@ -72,9 +72,10 @@ Milk *Milk::clone() const
  std::string Milk::toString() const
  {
   std::stringstream ss;  
-  ss << Product::toString() << std::endl;
-  ss << getVolume() << std::endl;
-  ss << getIsPasteurized() << std::endl;
-  ss << getPasterurizedPriceCoefficient() << std::endl;
+  ss << Product::toString();
+  ss << "Volume: " << getVolume() << std::endl;
+  ss << "Is Pasteurized: " << getIsPasteurized() << std::endl;
+  ss << "Pasteurized Price Coefficient: " 
+  << getPasterurizedPriceCoefficient() << std::endl;
   return ss.str();
  }

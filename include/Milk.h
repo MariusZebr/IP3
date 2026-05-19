@@ -11,8 +11,8 @@ private:
   double pasterurizedCoefficient;
 
 public:
-  Milk(std::string origin, int priceCoefficient, 
-    int transportationCostCoefficient, int volume, bool isPasteurized, double pasterurizedCoefficient);
+  Milk(std::string origin, double volume, double priceCoefficient, 
+    double transportationCostCoefficient, bool isPasteurized, double pasterurizedCoefficient);
   Milk *clone() const override;
 
   void setVolume(double volume);

@@ -39,7 +39,7 @@ Wheat *Wheat::clone() const
  std::string Wheat::toString() const
  {
   std::stringstream ss;  
-  ss << Product::toString() << std::endl;
-  ss << getWeight() << std::endl;
+  ss << Product::toString();
+  ss << "Weight: " << getWeight() << std::endl;
   return ss.str();
  }
