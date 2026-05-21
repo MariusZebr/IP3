@@ -20,7 +20,7 @@ public:
   ProductContainer &operator=(const ProductContainer &other);
   
   void forEach(std::function<void(Product *)> callback);
-  std::string listProducts();
+  std::string listProducts() const;
 
   class ForwardIterator
   {
@@ -62,8 +62,8 @@ public:
   void remove(std::vector<Product *>::iterator position);
   
   // Iterator methods
-  ForwardIterator begin();
-  ForwardIterator end();
+  ForwardIterator begin() const;
+  ForwardIterator end() const;
 
   std::string toString() const;
 };

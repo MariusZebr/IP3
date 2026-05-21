@@ -13,6 +13,8 @@ Milk::Milk(std::string origin, double volume, double priceCoefficient,
 void Milk::setVolume(double volume)
 {
   this->volume = volume;
+  if (volume < 0)
+    throw std::invalid_argument("Volume cannot be negative");
 }
 
 void Milk::setIsPasteurized(bool isPasteurized)
@@ -22,6 +24,8 @@ void Milk::setIsPasteurized(bool isPasteurized)
 
 void Milk::setPasterurizeCoefficient(double pasterurizeCoefficient)
 {
+  if (pasterurizeCoefficient < 0)
+    throw std::invalid_argument("Pasterurized price coefficient cannot be negative");
   this->pasterurizedCoefficient = pasterurizeCoefficient;
 }
 

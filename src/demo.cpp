@@ -35,7 +35,7 @@ int main()
   try
   {
     // 10% repurposed
-    p1->repurpose(10);
+    p1->repurposePercentage(10);
   }
   catch (const NotImplementedException &e)
   {
@@ -46,7 +46,7 @@ int main()
   try
   {
     // 20% repurposed
-    p2->repurpose(20);
+    p2->repurposePercentage(20);
     // accessing method of child class through base class pointer using dynamic_cast
     Wheat *wheat = dynamic_cast<Wheat *>(p2);
     if (wheat)
@@ -131,5 +131,6 @@ int main()
   delete p2;
   return 0;
 }
+
 
 #endif // DEMO_MODE

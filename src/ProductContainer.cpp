@@ -138,8 +138,10 @@ Product *ProductContainer::Impl::get(const ForwardIterator &position) const
 
 void ProductContainer::Impl::update(const ForwardIterator &position, Product *p)
 {
-  delete *position.pIterImpl->getIt(); // free old product
-  *position.pIterImpl->getIt() = p;    // replace with new
+  auto &slot = *position.pIterImpl->getIt(); // Product*& (reference to pointer)
+
+  delete slot; // delete old object
+  slot = p;    // replace pointer
 }
 
 // IteratorImpl class methods implementations
@@ -215,7 +217,7 @@ ProductContainer::ForwardIterator &ProductContainer::ForwardIterator::operator++
 
 bool ProductContainer::ForwardIterator::operator!=(const ForwardIterator &other) const
 {
-  return !pIterImpl->equals(*other.pIterImpl); // I didn't know 'other' can access private fields here
+  return !pIterImpl->equals(*other.pIterImpl); // I didn't know 'other' can access its private fields here
 }
 
 bool ProductContainer::ForwardIterator::operator==(const ForwardIterator &other) const
@@ -256,7 +258,7 @@ void ProductContainer::forEach(std::function<void(Product *)> callback)
   pImpl->forEach(callback);
 }
 
-std::string ProductContainer::listProducts()
+std::string ProductContainer::listProducts() const
 {
   std::stringstream ss;
   if (pImpl->getPricingStrategy() == nullptr)
@@ -308,13 +310,13 @@ void ProductContainer::remove(std::vector<Product *>::iterator position)
   pImpl->remove(position);
 }
 
-ProductContainer::ForwardIterator ProductContainer::begin()
+ProductContainer::ForwardIterator ProductContainer::begin() const
 {
   // this would break if ProductContainer wasn't a friend of ForwardIterator
   return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->begin()));
 }
 
-ProductContainer::ForwardIterator ProductContainer::end()
+ProductContainer::ForwardIterator ProductContainer::end() const
 {
   // this would break if ProductContainer wasn't a friend of ForwardIterator
   return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->end()));
@@ -323,8 +325,7 @@ ProductContainer::ForwardIterator ProductContainer::end()
 std::string ProductContainer::toString() const
 {
   std::stringstream ss;
-  pImpl->forEach([&ss](Product *p) {
-    ss << p->toString();
-  });
+  pImpl->forEach([&ss](Product *p)
+                 { ss << p->toString(); });
   return ss.str();
 }

@@ -25,10 +25,18 @@ g: f a
 demo.exe: demo.o milk.o wheat.o Product.o DiscountedPrice.o RegularPrice.o TaxedPrice.o ProductContainer.o NotImplementedException.o StrategyNotSetException.o
 	$(COMP) $(COMPFLAGS) -o demo.exe demo.o milk.o wheat.o Product.o DiscountedPrice.o RegularPrice.o TaxedPrice.o ProductContainer.o NotImplementedException.o StrategyNotSetException.o
 
+test.exe: test.o milk.o wheat.o Product.o DiscountedPrice.o RegularPrice.o TaxedPrice.o ProductContainer.o NotImplementedException.o StrategyNotSetException.o
+	$(COMP) $(COMPFLAGS) -o test.exe test.o milk.o wheat.o Product.o DiscountedPrice.o RegularPrice.o TaxedPrice.o ProductContainer.o NotImplementedException.o StrategyNotSetException.o
+
+test.o: src/test.cpp include/Product.h include/Milk.h include/Wheat.h include/ProductContainer.h include/strategies/PricingStrategy.h include/strategies/DiscountedPrice.h include/exceptions/StrategyNotSetException.h include/exceptions/NotImplementedException.h
+	$(COMP) $(COMPFLAGS) -DTEST_MODE -c src/test.cpp -o test.o
+
 demo.o: src/demo.cpp include/Product.h include/Milk.h include/Wheat.h include/ProductContainer.h include/strategies/PricingStrategy.h include/strategies/DiscountedPrice.h include/exceptions/StrategyNotSetException.h include/exceptions/NotImplementedException.h
-	$(COMP) $(COMPFLAGS) -c src/demo.cpp -o demo.o
+	$(COMP) $(COMPFLAGS) -DDEMO_MODE -c src/demo.cpp -o demo.o
+
 milk.o: src/Milk.cpp include/Milk.h include/Product.h
 	$(COMP) $(COMPFLAGS) -c src/Milk.cpp -o milk.o
+
 wheat.o: src/Wheat.cpp include/Wheat.h include/Product.h
 	$(COMP) $(COMPFLAGS) -c src/Wheat.cpp -o wheat.o
 

@@ -8,10 +8,12 @@ Wheat::Wheat(const std::string &origin, double weight, double priceCoefficient, 
 
 void Wheat::setWeight(double weight)
 {
+  if (weight < 0)
+    throw std::invalid_argument("Weight cannot be negative");
   this->weight = weight;
 }
 
-int Wheat::getWeight() const
+double Wheat::getWeight() const
 {
   return weight;
 }
@@ -26,8 +28,10 @@ double Wheat::calculateTransportationCost() const
   return getWeight() * getTransportationCostCoefficient();
 }
 
-void Wheat::repurpose(double percentage)
+void Wheat::repurposePercentage(double percentage)
 {
+  if (percentage < 0 || percentage > 100)
+    throw std::invalid_argument("Percentage must be between 0 and 100");
   weight *= (1.0 - percentage / 100.0);
 }
 

@@ -3,6 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <stdexcept>
+#define EPSILON 1e-6
 
 class Product
 {
@@ -30,12 +32,15 @@ public:
   
   // Compares by profit
   virtual bool operator==(const Product &other) const;
+  virtual bool operator!=(const Product &other) const;
   virtual bool operator>(const Product &other) const;
   virtual bool operator<(const Product &other) const;
   virtual bool operator>=(const Product &other) const;
   virtual bool operator<=(const Product &other) const;
 
-  virtual void repurpose(double percentage); 
+  // How much percentage of the product is repurposed (e.g. used for animal feed instead of human consumption)
+  // Not all products need to implement this method
+  virtual void repurposePercentage(double percentage); 
 
   virtual std::string toString() const;
 };

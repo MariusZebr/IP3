@@ -13,13 +13,12 @@ public:
   Wheat *clone() const override;
 
   void setWeight(double weight);
-
-  int getWeight() const;
+  double getWeight() const;
 
   double calculatePrice() const override;
   double calculateTransportationCost() const override;
 
-  void repurpose(double percentage) override;
+  void repurposePercentage(double percentage) override;
   
   std::string toString() const override;
 };
