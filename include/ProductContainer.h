@@ -56,14 +56,17 @@ public:
   // CRUD operations
 
   void push_back(Product *p);
-  void insert(ForwardIterator &position, Product *p);
-  Product *get(const ForwardIterator &position) const;
-  void update(const ForwardIterator &position, Product *p);
-  void remove(std::vector<Product *>::iterator position);
+  void insert(ForwardIterator position, Product *p);
+  Product *get(const ForwardIterator position) const;
+  void update(const ForwardIterator position, Product *p);
+  void remove(ForwardIterator position);
   
   // Iterator methods
   ForwardIterator begin() const;
   ForwardIterator end() const;
+
+  int getSize() const;
+  void clear();
 
   std::string toString() const;
 };

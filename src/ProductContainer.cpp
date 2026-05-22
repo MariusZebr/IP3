@@ -28,14 +28,17 @@ public:
   // CRUD operations
 
   void push_back(Product *p);
-  void insert(ForwardIterator &position, Product *p);
-  Product *get(const ForwardIterator &position) const;
-  void update(const ForwardIterator &position, Product *p);
-  void remove(std::vector<Product *>::iterator position);
+  void insert(ForwardIterator position, Product *p);
+  Product *get(const ForwardIterator position) const;
+  void update(const ForwardIterator position, Product *p);
+  void remove(ForwardIterator position);
 
   // Iterator methods
   std::vector<Product *>::iterator begin();
   std::vector<Product *>::iterator end();
+
+  int getSize() const;
+  void clear();
 };
 
 // Impl class methods implementations
@@ -91,12 +94,6 @@ void ProductContainer::Impl::push_back(Product *p)
   data.push_back(p);
 }
 
-void ProductContainer::Impl::remove(std::vector<Product *>::iterator position)
-{
-  delete *position;
-  data.erase(position);
-}
-
 std::vector<Product *>::iterator ProductContainer::Impl::begin()
 {
   return data.begin();
@@ -107,53 +104,82 @@ std::vector<Product *>::iterator ProductContainer::Impl::end()
   return data.end();
 }
 
+int ProductContainer::Impl::getSize() const
+{
+  return data.size();
+}
+
+void ProductContainer::Impl::clear()
+{
+  for (Product *p : data)
+  {
+    delete p;
+  }
+  data.clear();
+}
+
 // -------------------------------------------------
 class ProductContainer::ForwardIterator::IteratorImpl
 {
 private:
   std::vector<Product *>::iterator it;
+  std::vector<Product *>::iterator endIt;
 
 public:
-  IteratorImpl(std::vector<Product *>::iterator i);
+  IteratorImpl(std::vector<Product *>::iterator i, std::vector<Product *>::iterator end);
   IteratorImpl(const IteratorImpl &other);
 
   std::vector<Product *>::iterator getIt() const;
+  std::vector<Product *>::iterator getItEnd() const;
 
   Product *&dereference();
   void increment();
   bool equals(const IteratorImpl &other) const;
 };
 
-void ProductContainer::Impl::insert(ForwardIterator &position, Product *p)
+void ProductContainer::Impl::insert(ForwardIterator position, Product *p)
 {
   // this and others below would break if ProductContainer wasn't a friend of ForwardIterator
-  data.insert(position.pIterImpl->getIt(), p); // inserts before the iterator position
+  data.insert(position.pIterImpl->getIt(), p); // inserts before the iterator position 
 }
 
 // Impl class methods that depend on the pIterImpl class
-Product *ProductContainer::Impl::get(const ForwardIterator &position) const
+Product *ProductContainer::Impl::get(const ForwardIterator position) const
 {
   return position.pIterImpl->dereference();
 }
 
-void ProductContainer::Impl::update(const ForwardIterator &position, Product *p)
+void ProductContainer::Impl::update(const ForwardIterator position, Product *p)
 {
+  if (position.pIterImpl->getIt() == position.pIterImpl->getItEnd())
+    throw std::out_of_range("ProductContainer::update: cannot update end iterator");
   auto &slot = *position.pIterImpl->getIt(); // Product*& (reference to pointer)
 
   delete slot; // delete old object
   slot = p;    // replace pointer
 }
 
+void ProductContainer::Impl::remove(ForwardIterator position)
+{
+  if (position.pIterImpl->getIt() == position.pIterImpl->getItEnd())
+    throw std::out_of_range("ProductContainer::remove: cannot remove end iterator");
+  auto it = position.pIterImpl->getIt();
+  delete *it;
+  data.erase(it);
+}
+
 // IteratorImpl class methods implementations
 
-ProductContainer::ForwardIterator::IteratorImpl::IteratorImpl(std::vector<Product *>::iterator i)
+ProductContainer::ForwardIterator::IteratorImpl::IteratorImpl(std::vector<Product *>::iterator i, std::vector<Product *>::iterator end)
 {
   it = i;
+  endIt = end;
 }
 
 ProductContainer::ForwardIterator::IteratorImpl::IteratorImpl(const ProductContainer::ForwardIterator::IteratorImpl &other)
 {
   it = other.it;
+  endIt = other.endIt;
 }
 
 std::vector<Product *>::iterator ProductContainer::ForwardIterator::IteratorImpl::getIt() const
@@ -161,13 +187,22 @@ std::vector<Product *>::iterator ProductContainer::ForwardIterator::IteratorImpl
   return it;
 }
 
+std::vector<Product *>::iterator ProductContainer::ForwardIterator::IteratorImpl::getItEnd() const
+{
+  return endIt;
+}
+
 Product *&ProductContainer::ForwardIterator::IteratorImpl::dereference()
 {
+  if (it == endIt)
+    throw std::out_of_range("ForwardIterator: cannot dereference end iterator");
   return *it;
 }
 
 void ProductContainer::ForwardIterator::IteratorImpl::increment()
 {
+  if (it == endIt)
+    throw std::out_of_range("ForwardIterator: cannot advance past end");
   ++it;
 }
 
@@ -213,6 +248,13 @@ ProductContainer::ForwardIterator &ProductContainer::ForwardIterator::operator++
 {
   pIterImpl->increment();
   return *this;
+}
+
+ProductContainer::ForwardIterator ProductContainer::ForwardIterator::operator++(int)
+{
+  ForwardIterator temp = *this;
+  pIterImpl->increment();
+  return temp;
 }
 
 bool ProductContainer::ForwardIterator::operator!=(const ForwardIterator &other) const
@@ -290,22 +332,22 @@ void ProductContainer::push_back(Product *p)
   pImpl->push_back(p);
 }
 
-void ProductContainer::insert(ForwardIterator &position, Product *product)
+void ProductContainer::insert(ForwardIterator position, Product *product)
 {
   pImpl->insert(position, product);
 }
 
-Product *ProductContainer::get(const ForwardIterator &position) const
+Product *ProductContainer::get(const ForwardIterator position) const
 {
   return pImpl->get(position);
 }
 
-void ProductContainer::update(const ForwardIterator &position, Product *p)
+void ProductContainer::update(const ForwardIterator position, Product *p)
 {
   pImpl->update(position, p);
 }
 
-void ProductContainer::remove(std::vector<Product *>::iterator position)
+void ProductContainer::remove(ForwardIterator position)
 {
   pImpl->remove(position);
 }
@@ -313,13 +355,23 @@ void ProductContainer::remove(std::vector<Product *>::iterator position)
 ProductContainer::ForwardIterator ProductContainer::begin() const
 {
   // this would break if ProductContainer wasn't a friend of ForwardIterator
-  return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->begin()));
+  return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->begin(), pImpl->end()));
 }
 
 ProductContainer::ForwardIterator ProductContainer::end() const
 {
   // this would break if ProductContainer wasn't a friend of ForwardIterator
-  return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->end()));
+  return ForwardIterator(new ForwardIterator::IteratorImpl(pImpl->end(), pImpl->end()));
+}
+
+int ProductContainer::getSize() const
+{
+  return pImpl->getSize();
+}
+
+void ProductContainer::clear()
+{
+  pImpl->clear();
 }
 
 std::string ProductContainer::toString() const

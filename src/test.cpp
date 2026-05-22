@@ -1,4 +1,4 @@
-#define TEST_MODE
+//#define TEST_MODE
 #ifdef TEST_MODE
 
 #include <fstream>
@@ -6,6 +6,7 @@
 #include "../include/Product.h"
 #include "../include/Milk.h"
 #include "../include/Wheat.h"
+//#include "../include/Eggs.h"
 #include "../include/ProductContainer.h"
 #include "../include/strategies/DiscountedPrice.h"
 #include "../include/exceptions/NotImplementedException.h"
@@ -988,7 +989,192 @@ fout << "Testing clone method through Product pointer:" << std::endl;
 }
     */
 
+  {
+    fout << std::endl << "Testing ProductContainer class:" << std::endl;
+    fout << "Testing default constructor and push_back:" << std::endl;
+    ProductContainer container;
+    container.push_back(new Milk("Farm A", 100.0, 2.5, 0.5, false, 1.2));
+    report(fout, "ProductContainer default constructor and push_back", container.getSize() == 1);
+    container.push_back(new Milk("Farm B", 200.0, 2.0, 0.4, true, 1.5));
+    report(fout, "ProductContainer push_back", container.getSize() == 2);
+    container.push_back(new Wheat("Field A", 300.0, 1.5, 0.3));
+    report(fout, "ProductContainer push_back with different product type", container.getSize() == 3);
+    container.push_back(new Milk("Farm C", 150.0, 2.8, 0.6, false, 1.3));
+    report(fout, "ProductContainer push_back with another product type", container.getSize() == 4);
+    //fout << container.toString() << std::endl;
+
+    fout << std::endl << "Testing clear:" << std::endl;
+    container.clear();
+    report(fout, "1. ProductContainer clear", container.getSize() == 0);
+    container.clear(); // Clear again to test clearing an already empty container
+    report(fout, "2. ProductContainer clear on already empty container", container.getSize() == 0);
+  }
+
+  {
+    fout << std::endl << "Testing begin and end iterators:" << std::endl;
+
+    ProductContainer container;
+    container.push_back(new Milk("Farm A", 100.0, 2.5, 0.5, false, 1.2));
+    container.push_back(new Milk("Farm B", 200.0, 2.0, 0.4, true, 1.5));
+    container.push_back(new Wheat("Farm C", 300.0, 1.5, 0.3));
+    container.push_back(new Milk("Farm D", 150.0, 2.8, 0.6, false, 1.3));
+
+    auto it = container.begin();
+    report(fout, "ProductContainer begin iterator dereference", it != container.end() && (*it)->getOrigin() == "Farm A");
+    ++it;
+    report(fout, "ProductContainer iterator pre-increment in the line before dereference", it != container.end() && (*it)->getOrigin() == "Farm B");
+    report(fout, "ProductContainer iterator pre-increment in the same line as dereference", it != container.end() && (*(++it))->getOrigin() == "Farm C");
+    it++;
+    report(fout, "ProductContainer iterator post-increment in the line before dereference", it != container.end() && (*it)->getOrigin() == "Farm D"); 
+    report(fout, "ProductContainer iterator post-increment in the same line as dereference", it != container.end() && (*(it++))->getOrigin() == "Farm D");
+    report(fout, "ProductContainer end iterator", it == container.end());
+    try
+    {
+      *it; // Dereferencing end iterator should throw
+      report(fout, "ProductContainer dereferencing end iterator should throw", false);
+    }
+    catch (const std::out_of_range &e)
+    {
+      report(fout, "ProductContainer dereferencing end iterator should throw", true);
+    }
+    try
+    {
+      ++it; // Incrementing end iterator should throw
+      report(fout, "ProductContainer pre-incrementing end iterator should throw", false);
+    }
+    catch (const std::out_of_range &e)
+    {
+      report(fout, "ProductContainer pre-incrementing end iterator should throw", true);
+    }
+    try
+    {
+      it++; // Post-incrementing end iterator should throw
+      report(fout, "ProductContainer post-incrementing end iterator should throw", false);
+    }
+    catch (const std::out_of_range &e)
+    {
+      report(fout, "ProductContainer post-incrementing end iterator should throw", true);
+    }
+  }
+  {
+    ProductContainer container;
+    container.push_back(new Milk("Farm A", 100.0, 2.5, 0.5, false, 1.2));
+    container.push_back(new Milk("Farm B", 200.0, 2.0, 0.4, true, 1.5));
+    auto it2 = container.begin();
+    auto it3 = container.begin();
+    report(fout, "ProductContainer iterator equality", it2 == it3);
+    ++it2;
+    report(fout, "ProductContainer iterator equality", !(it2 == it3));
+    auto it4 = container.end();
+    auto it5 = container.end();
+    report(fout, "ProductContainer iterator equality", it4 == it5);
+
+    it3 = it2;
+    report(fout, "ProductContainer deep copy", it2 == it3);
+    it3++;
+    report(fout, "ProductContainer deep copy independence", it2 != it3);
+
+  }
+
+  {
+    // pass by reference?
+    fout << std::endl << "Testing insert:" << std::endl;
+    ProductContainer container;
+    container.insert(container.end(), new Milk("Farm A", 100.0, 2.5, 0.5, false, 1.2));
+    report(fout, "ProductContainer insert at end", (*container.begin())->getOrigin() == "Farm A");
     
+    container.insert(container.end(), new Milk("Farm B", 200.0, 2.0, 0.4, true, 1.5));
+    auto it = container.begin();
+    ++it;
+    report(fout, "ProductContainer insert at end again", container.begin() != container.end() && (*it)->getOrigin() == "Farm B");
+    
+    container.insert(it, new Wheat("Farm C", 300.0, 1.5, 0.3));
+    it = container.begin();
+    ++it;
+    report(fout, "ProductContainer insert at middle", container.begin() != container.end() && (*it)->getOrigin() == "Farm C");
+    
+    container.insert(container.begin(), new Milk("Farm D", 150.0, 2.8, 0.6, false, 1.3));
+    report(fout, "ProductContainer insert at beginning", container.begin() != container.end() && (*container.begin())->getOrigin() == "Farm D");
+    
+    container.insert(container.begin(), new Milk("Farm E", 250.0, 2.3, 0.4, true, 1.4));
+    report(fout, "ProductContainer insert at beginning again", container.begin() != container.end() && (*container.begin())->getOrigin() == "Farm E");
+    
+    report(fout, "ProductContainer size after inserts", container.getSize() == 5);
+
+    fout << std::endl << "Testing get(ProductContainer::iterator)" << std::endl;
+    Product* p = container.get(container.begin()); // don't delete, container owns it!!
+    report(fout, "ProductContainer get", p != nullptr && p->getOrigin() == "Farm E");
+    try
+    {
+      container.get(container.end()); // should throw
+      report(fout, "ProductContainer get with end iterator should throw", false);
+    }
+    catch (const std::out_of_range &e)
+    {
+      report(fout, "ProductContainer get with end iterator should throw", true);
+    }
+    it = container.begin();
+    ++it;
+    Product* p3 = container.get(it);
+    report(fout, "ProductContainer get with middle iterator", p3 != nullptr && p3->getOrigin() == "Farm D");
+
+    fout << std::endl << "Testing update(ProductContainer::iterator)" << std::endl;
+    container.update(container.begin(), new Milk("Farm F", 300.0, 2.0, 0.5, false, 1.1));
+    report(fout, "ProductContainer update at beginning", (*container.begin())->getOrigin() == "Farm F");
+    it = container.begin();
+    ++it;
+    container.update(it, new Milk("Farm G", 400.0, 1.8, 0.4, true, 1.6));
+    report(fout, "ProductContainer update at middle", (*it)->getOrigin() == "Farm G");
+    try
+    {
+      container.update(container.end(), new Milk("Farm H", 500.0, 1.5, 0.3, false, 1.2)); // should throw
+      report(fout, "ProductContainer update with end iterator should throw", false);
+    }
+    catch (const std::out_of_range &e)
+    {
+      report(fout, "ProductContainer update with end iterator should throw", true);
+    }
+  }
+
+  {
+    fout << std::endl << "Testing remove(ProductContainer::iterator)" << std::endl;
+    ProductContainer container;
+    container.push_back(new Milk("Farm A", 100.0, 2.5, 0.5, false, 1.2));
+    container.push_back(new Milk("Farm B", 200.0, 2.0, 0.4, true, 1.5));
+    container.push_back(new Wheat("Farm C", 300.0, 1.5, 0.3));
+    container.push_back(new Milk("Farm D", 150.0, 2.8, 0.6, false, 1.3));
+    auto it = container.begin();
+    container.remove(it);
+    report(fout, "ProductContainer remove at beginning", container.begin() != container.end() && (*container.begin())->getOrigin() == "Farm B");
+    it = container.begin();
+    ++it;
+    container.remove(it);
+    report(fout, "ProductContainer remove at middle", container.begin() != container.end() && (*(++container.begin()))->getOrigin() == "Farm D");
+    try
+    {
+      container.remove(container.end()); // should throw
+      report(fout, "ProductContainer remove with end iterator should throw", false);
+    }
+    catch (const std::out_of_range &e)
+    {
+      report(fout, "ProductContainer remove with end iterator should throw", true);
+    }
+
+    container.clear();
+    report(fout, "ProductContainer clear", container.getSize() == 0);
+    try
+    {
+      container.remove(container.begin()); // should throw on empty container
+      report(fout, "ProductContainer remove with begin iterator on empty container should throw", false);
+    }
+    catch (const std::out_of_range &e)
+    {
+      report(fout, "ProductContainer remove with begin iterator on empty container should throw", true);
+    }
+    container.clear();
+    report(fout, "ProductContainer clear again on already empty container", container.getSize() == 0);
+  }
+
   }
   catch (...)
   {

@@ -77,9 +77,10 @@ Milk *Milk::clone() const
  {
   std::stringstream ss;  
   ss << Product::toString();
+  ss << "Type: Milk" << std::endl;
   ss << "Volume: " << getVolume() << std::endl;
   ss << "Is Pasteurized: " << getIsPasteurized() << std::endl;
   ss << "Pasteurized Price Coefficient: " 
-  << getPasterurizedPriceCoefficient() << std::endl;
+  << getPasterurizedPriceCoefficient() << std::endl << std::endl;
   return ss.str();
  }
