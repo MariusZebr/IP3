@@ -90,7 +90,7 @@ int main()
 
   // strategy
   // 10% discount
-  DiscountedPrice *discount = new DiscountedPrice(10); // container does not manage the memory of the strategy
+  DiscountedPrice *discount = new DiscountedPrice(10);
   container1.setPricingStrategy(discount);
   std::cout << "Container 1 contents after setting discount strategy:" << std::endl;
   // should not throw since the strategy is set
@@ -124,11 +124,6 @@ int main()
     std::cout << "Price of Product without pricing strategy: " << p->calculatePrice() << std::endl;
     std::cout << "Transportation Cost of Product: " << p->calculateTransportationCost() << std::endl;
     std::cout << "Profit of Product: " << p->calculateProfit() << std::endl << std::endl;});
-  
-
-  delete discount;
-  delete p1;
-  delete p2;
   return 0;
 }
 

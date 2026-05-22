@@ -54,6 +54,7 @@ ProductContainer::Impl::~Impl()
   {
     delete p;
   }
+  delete pricingStrategy;
 }
 
 ProductContainer::Impl *ProductContainer::Impl::clone() const
