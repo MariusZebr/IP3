@@ -1,0 +1,236 @@
+Testing Wheat class:
+Testing getters:
+[PASS] Wheat getOrigin
+[PASS] Wheat getWeight
+[PASS] Wheat getPriceCoefficient
+[PASS] Wheat getTransportationCostCoefficient
+
+Testing setters:
+[PASS] Wheat setOrigin
+[PASS] Wheat setPriceCoefficient
+[PASS] Wheat setPriceCoefficient with negative value
+[PASS] Wheat setTransportationCostCoefficient
+[PASS] Wheat setTransportationCostCoefficient with negative value
+[PASS] Wheat setWeight
+[PASS] Wheat setWeight with negative value
+
+Testing constructors:
+[PASS] Wheat constructor with negative weight
+[PASS] Wheat constructor with negative price coefficient
+[PASS] Wheat constructor with negative transportation cost coefficient
+
+Testing calculatePrice, calculateTransportationCost and calculateProfit:
+[PASS] Wheat calculatePrice
+[PASS] Wheat calculateTransportationCost
+[PASS] Wheat calculateProfit
+
+Testing repurposePercentage:
+[PASS] Wheat repurposePercentage
+[PASS] Wheat repurposePercentage with negative value
+[PASS] Wheat repurposePercentage with value greater than 100
+
+Testing comparison operators:
+Testing when wheat2 is less than wheat3:
+[PASS] Wheat operator==
+[PASS] Wheat operator>
+[PASS] Wheat operator<
+[PASS] Wheat operator>=
+[PASS] Wheat operator<=
+
+Testing when wheat2 is more than wheat3:
+[PASS] Wheat operator==
+[PASS] Wheat operator>
+[PASS] Wheat operator<
+[PASS] Wheat operator>=
+[PASS] Wheat operator<=
+
+1. Testing when wheat2 is equal to wheat3:
+[PASS] Wheat operator==
+[PASS] Wheat operator>
+[PASS] Wheat operator<
+[PASS] Wheat operator>=
+[PASS] Wheat operator<=
+
+2. Testing when wheat2 is equal to wheat3:
+[PASS] Wheat operator==
+[PASS] Wheat operator>
+[PASS] Wheat operator<
+[PASS] Wheat operator>=
+[PASS] Wheat operator<=
+
+Testing polymorphism:
+[PASS] Wheat dynamic_cast and getWeight from Product class
+[PASS] Wheat dynamic_cast and setWeight
+[PASS] Wheat calculatePrice through Product pointer
+[PASS] Wheat calculateTransportationCost through Product pointer
+[PASS] Wheat calculateProfit through Product pointer
+
+Testing deep copy:
+[PASS] Wheat deep copy (getWeight)
+[PASS] Wheat deep copy (getPriceCoefficient)
+[PASS] Wheat deep copy (getTransportationCostCoefficient)
+[PASS] Wheat deep copy independence (getWeight)
+[PASS] Wheat deep copy independence (getPriceCoefficient)
+[PASS] Wheat deep copy independence (getTransportationCostCoefficient)
+
+Testing clone method through Product pointer:
+[PASS] Wheat deep copy (getWeight with dynamic_cast)
+[PASS] Wheat deep copy (getPriceCoefficient)
+[PASS] Wheat deep copy (getTransportationCostCoefficient)
+[PASS] Wheat deep copy independence (getWeight with dynamic_cast)
+[PASS] Wheat deep copy independence (getPriceCoefficient)
+[PASS] Wheat deep copy independence (getTransportationCostCoefficient)
+
+Testing Milk class:
+Testing getters:
+[PASS] Milk getOrigin
+[PASS] Milk getVolume
+[PASS] Milk getPriceCoefficient
+[PASS] Milk getTransportationCostCoefficient
+[PASS] Milk getIsPasteurized
+[PASS] Milk getPasterurizedPriceCoefficient
+
+Testing setters:
+[PASS] Milk setOrigin
+[PASS] Milk setVolume
+[PASS] Milk setVolume with negative value
+[PASS] Milk setPriceCoefficient
+[PASS] Milk setPriceCoefficient with negative value
+[PASS] Milk setTransportationCostCoefficient
+[PASS] Milk setTransportationCostCoefficient with negative value
+[PASS] Milk setIsPasteurized
+[PASS] Milk setPasterurizeCoefficient
+[PASS] Milk setPasterurizeCoefficient with negative value
+
+Testing constructors:
+[PASS] Milk constructor with negative volume
+[PASS] Milk constructor with negative price coefficient
+[PASS] Milk constructor with negative transportation cost coefficient
+[PASS] Milk constructor with negative pasteurized coefficient
+
+Testing calculatePrice, calculateTransportationCost and calculateProfit:
+[PASS] Milk calculatePrice (not pasteurized)
+[PASS] Milk calculateTransportationCost (not pasteurized)
+[PASS] Milk calculateProfit (not pasteurized)
+[PASS] Milk calculatePrice (pasteurized)
+[PASS] Milk calculateTransportationCost (pasteurized)
+[PASS] Milk calculateProfit (pasteurized)
+
+Testing pasteurize:
+[PASS] Milk getIsPasteurized before pasteurize
+[PASS] Milk getIsPasteurized after pasteurize
+[PASS] Milk calculatePrice after pasteurize
+
+Testing repurposePercentage:
+[PASS] Milk repurposePercentage is not implemented
+
+Testing comparison operators:
+Testing when milk2 is less than milk3:
+[PASS] Milk operator==
+[PASS] Milk operator>
+[PASS] Milk operator<
+[PASS] Milk operator>=
+[PASS] Milk operator<=
+
+Testing when milk2 is more than milk3:
+[PASS] Milk operator==
+[PASS] Milk operator>
+[PASS] Milk operator<
+[PASS] Milk operator>=
+[PASS] Milk operator<=
+
+1. Testing when milk2 is equal to milk3:
+[PASS] Milk operator==
+[PASS] Milk operator>
+[PASS] Milk operator<
+[PASS] Milk operator>=
+[PASS] Milk operator<=
+
+2. Testing when milk2 is equal to milk3:
+[PASS] Milk operator==
+[PASS] Milk operator>
+[PASS] Milk operator<
+[PASS] Milk operator>=
+[PASS] Milk operator<=
+
+Testing polymorphism:
+[PASS] Milk dynamic_cast and getVolume from Product class
+[PASS] Milk dynamic_cast and setVolume
+[PASS] Milk calculatePrice through Product pointer
+[PASS] Milk calculateTransportationCost through Product pointer
+[PASS] Milk calculateProfit through Product pointer
+
+Testing deep copy:
+[PASS] Milk deep copy (getVolume)
+[PASS] Milk deep copy (getPriceCoefficient)
+[PASS] Milk deep copy (getTransportationCostCoefficient)
+[PASS] Milk deep copy (getIsPasteurized)
+[PASS] Milk deep copy (getPasterurizedPriceCoefficient)
+[PASS] Milk deep copy independence (getVolume)
+[PASS] Milk deep copy independence (getPriceCoefficient)
+[PASS] Milk deep copy independence (getTransportationCostCoefficient)
+[PASS] Milk deep copy independence (getIsPasteurized)
+[PASS] Milk deep copy independence (getPasterurizedPriceCoefficient)
+Testing clone method through Product pointer:
+[PASS] Milk deep copy (getVolume with dynamic_cast)
+[PASS] Milk deep copy (getPriceCoefficient)
+[PASS] Milk deep copy (getTransportationCostCoefficient)
+[PASS] Milk deep copy independence (getVolume with dynamic_cast)
+[PASS] Milk deep copy independence (getPriceCoefficient)
+[PASS] Milk deep copy independence (getTransportationCostCoefficient)
+
+Testing ProductContainer class:
+Testing default constructor and push_back:
+[PASS] ProductContainer default constructor and push_back
+[PASS] ProductContainer push_back
+[PASS] ProductContainer push_back with different product type
+[PASS] ProductContainer push_back with another product type
+
+Testing clear:
+[PASS] 1. ProductContainer clear
+[PASS] 2. ProductContainer clear on already empty container
+
+Testing begin and end iterators:
+[PASS] ProductContainer begin iterator dereference
+[PASS] ProductContainer iterator pre-increment in the line before dereference
+[PASS] ProductContainer iterator pre-increment in the same line as dereference
+[PASS] ProductContainer iterator post-increment in the line before dereference
+[PASS] ProductContainer iterator post-increment in the same line as dereference
+[PASS] ProductContainer end iterator
+[PASS] ProductContainer dereferencing end iterator should throw
+[PASS] ProductContainer pre-incrementing end iterator should throw
+[PASS] ProductContainer post-incrementing end iterator should throw
+[PASS] ProductContainer iterator equality
+[PASS] ProductContainer iterator equality
+[PASS] ProductContainer iterator equality
+[PASS] ProductContainer deep copy
+[PASS] ProductContainer deep copy independence
+
+Testing insert:
+[PASS] ProductContainer insert at end
+[PASS] ProductContainer insert at end again
+[PASS] ProductContainer insert at middle
+[PASS] ProductContainer insert at beginning
+[PASS] ProductContainer insert at beginning again
+[PASS] ProductContainer size after inserts
+
+Testing get(ProductContainer::iterator)
+[PASS] ProductContainer get
+[PASS] ProductContainer get with end iterator should throw
+[PASS] ProductContainer get with middle iterator
+
+Testing update(ProductContainer::iterator)
+[PASS] ProductContainer update at beginning
+[PASS] ProductContainer update at middle
+[PASS] ProductContainer update with end iterator should throw
+
+Testing remove(ProductContainer::iterator)
+[PASS] ProductContainer remove at beginning
+[PASS] ProductContainer remove at middle
+[PASS] ProductContainer remove with end iterator should throw
+[PASS] ProductContainer clear
+[PASS] ProductContainer remove with begin iterator on empty container should throw
+[PASS] ProductContainer clear again on already empty container
+
+Total tests passed: 166
+Total tests failed: 0
