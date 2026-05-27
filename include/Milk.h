@@ -8,11 +8,14 @@ class Milk : public Product
 private:
   double volume;
   bool isPasteurized;
-  double pasterurizedCoefficient;
+  double pasterurizedPriceCoefficient;
 
 public:
-  Milk(std::string origin, double volume, double priceCoefficient, 
+  Milk(const std::string origin, double volume, double priceCoefficient, 
     double transportationCostCoefficient, bool isPasteurized, double pasterurizedCoefficient);
+protected:
+    Milk(const Milk& other);
+public:
   Milk *clone() const override;
 
   void setVolume(double volume);

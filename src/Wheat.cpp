@@ -6,6 +6,16 @@ Wheat::Wheat(const std::string &origin, double weight, double priceCoefficient, 
   setWeight(weight);
 }
 
+Wheat::Wheat(const Wheat& other) : Product(other)
+{
+  weight = other.getWeight();
+}
+
+Wheat *Wheat::clone() const
+{
+  return new Wheat(*this);
+}
+
 void Wheat::setWeight(double weight)
 {
   if (weight < 0)
@@ -33,11 +43,6 @@ void Wheat::repurposePercentage(double percentage)
   if (percentage < 0 || percentage > 100)
     throw std::invalid_argument("Percentage must be between 0 and 100");
   weight *= (1.0 - percentage / 100.0);
-}
-
-Wheat *Wheat::clone() const
-{
-  return new Wheat(*this);
 }
 
  std::string Wheat::toString() const

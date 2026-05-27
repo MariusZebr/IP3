@@ -9,7 +9,10 @@ private:
   double weight;
 
 public:
-  Wheat(const std::string &origin, double weight, double priceCoefficient, double transportationCostCoefficient);
+  Wheat(const std::string &origin, double weight, double priceCoefficient, double transportationCostCoefficient); 
+protected:
+  Wheat(const Wheat& other);
+public:
   Wheat *clone() const override;
 
   void setWeight(double weight);

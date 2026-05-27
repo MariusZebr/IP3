@@ -10,6 +10,19 @@ Milk::Milk(std::string origin, double volume, double priceCoefficient,
   setPasterurizeCoefficient(pasterurizedCoefficient);
 }
 
+Milk::Milk(const Milk& other) : Product(other)
+{
+  volume = other.getVolume();
+  isPasteurized = other.getIsPasteurized();
+  pasterurizedPriceCoefficient = other.getPasterurizedPriceCoefficient();
+
+}
+
+Milk *Milk::clone() const
+{
+  return new Milk(*this);
+}
+
 void Milk::setVolume(double volume)
 {
   this->volume = volume;
@@ -26,7 +39,7 @@ void Milk::setPasterurizeCoefficient(double pasterurizeCoefficient)
 {
   if (pasterurizeCoefficient < 0)
     throw std::invalid_argument("Pasterurized price coefficient cannot be negative");
-  this->pasterurizedCoefficient = pasterurizeCoefficient;
+  this->pasterurizedPriceCoefficient = pasterurizeCoefficient;
 }
 
 double Milk::getVolume() const
@@ -41,7 +54,7 @@ bool Milk::getIsPasteurized() const
 
 double Milk::getPasterurizedPriceCoefficient() const
 {
-  return pasterurizedCoefficient;
+  return pasterurizedPriceCoefficient;
 }
 
 double Milk::calculatePrice() const
@@ -66,11 +79,6 @@ double Milk::calculateTransportationCost() const
 void Milk::pasteurize()
 {
   isPasteurized = true;
-}
-
-Milk *Milk::clone() const
-{
-  return new Milk(*this);
 }
 
  std::string Milk::toString() const

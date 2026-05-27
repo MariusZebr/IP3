@@ -9,6 +9,13 @@ Product::Product(const std::string &origin, double priceCoefficient, double tran
   setTransportationCostCoefficient(transportationCostCoefficient);
 }
 
+Product::Product(const Product& other)
+{
+  origin = other.getOrigin();
+  priceCoefficient = other.getPriceCoefficient();
+  transportationCostCoefficient = other.getTransportationCostCoefficient();
+}
+
 void Product::setOrigin(const std::string &origin)
 {
   this->origin = origin;

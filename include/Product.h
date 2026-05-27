@@ -8,13 +8,16 @@
 
 class Product
 {
-private: 
+private:
   std::string origin;
   double priceCoefficient;
   double transportationCostCoefficient;
 
 protected:
+  Product();
   Product(const std::string &origin, double priceCoefficient, double transportationCostCoefficient);
+  Product(const Product& other);
+
 public:
   virtual ~Product() = default;
   virtual Product *clone() const = 0;
@@ -30,7 +33,7 @@ public:
   virtual double calculatePrice() const = 0;
   virtual double calculateTransportationCost() const = 0;
   virtual double calculateProfit() const; // Template design pattern: Template method (calls calculatePrice and calculateTransportationCost)
-  
+
   // Compares by profit
   virtual bool operator==(const Product &other) const;
   virtual bool operator!=(const Product &other) const;
@@ -41,7 +44,7 @@ public:
 
   // How much percentage of the product is repurposed (e.g. used for animal feed instead of human consumption)
   // Not all products need to implement this method
-  virtual void repurposePercentage(double percentage); 
+  virtual void repurposePercentage(double percentage);
 
   virtual std::string toString() const;
 };
