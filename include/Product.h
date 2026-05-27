@@ -13,8 +13,9 @@ private:
   double priceCoefficient;
   double transportationCostCoefficient;
 
-public:
+protected:
   Product(const std::string &origin, double priceCoefficient, double transportationCostCoefficient);
+public:
   virtual ~Product() = default;
   virtual Product *clone() const = 0;
 
